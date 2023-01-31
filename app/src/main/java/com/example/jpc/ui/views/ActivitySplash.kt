@@ -1,4 +1,4 @@
-package com.example.jpc
+package com.example.jpc.ui.views
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.jpc.R
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -31,6 +32,7 @@ class ActivitySplash : ComponentActivity() {
                 )
             }
         }
+        
 
         Timer().schedule(3000) {
             startActivity(Intent(this@ActivitySplash, ActivityLogin::class.java))

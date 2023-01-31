@@ -1,4 +1,4 @@
-package com.example.jpc
+package com.example.jpc.ui.views
 
 import android.content.Intent
 import android.os.Bundle
@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.jpc.R
 import com.example.jpc.ui.theme.Typography
 
 class ActivityLogin : ComponentActivity() {
@@ -59,9 +60,27 @@ class ActivityLogin : ComponentActivity() {
                         .fillMaxWidth(0.8f),
                     horizontalAlignment = Alignment.End
                 ) {
-                    Text(
-                        text = "Forgot password?",
-                        style = Typography.body2
+                    ClickableText(
+                        buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    color = Color.Black,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            ) {
+                                append(
+                                    "Forgot password?"
+                                )
+                            }
+                        },
+                        onClick = {
+                            startActivity(
+                                Intent(
+                                    this@ActivityLogin,
+                                    ActivityForgotPassword::class.java
+                                )
+                            )
+                        }
                     )
                 }
                 Spacer(modifier = Modifier.height(80.dp))
@@ -139,8 +158,8 @@ class ActivityLogin : ComponentActivity() {
                         withStyle(
                             style = SpanStyle(
                                 color = Color.Black,
-                                fontWeight = FontWeight.Bold
-                            )
+
+                                )
                         ) {
                             append(
                                 " Register now"
