@@ -2,18 +2,20 @@ package com.example.jpc.ui.views
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.jpc.ui.theme.Typography
 import kotlinx.coroutines.launch
 
@@ -23,35 +25,19 @@ class ActivityForgotPassword : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
-            // Declaring a Boolean value to
-            // store bottom sheet collapsed state
-            val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-                bottomSheetState =
-                BottomSheetState(BottomSheetValue.Collapsed)
+            //bottom sheet state
+            val sheetState = rememberModalBottomSheetState(
+                initialValue = ModalBottomSheetValue.Hidden,
+                confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded }
             )
-
-            // Declaring Coroutine scope
             val coroutineScope = rememberCoroutineScope()
-            // Creating a Bottom Sheet
-            BottomSheetScaffold(
-                scaffoldState = bottomSheetScaffoldState,
-                sheetContent = {
-                    Box(
-                        Modifier
-                            .fillMaxWidth()
-                            .height(400.dp)
-                            .background(Color(0XFF0F9D58))) {
-                        Column(
-                            Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(text = "Hello Geek!", fontSize = 20.sp, color = Color.White)
-                        }
-                    }
-                },
-                sheetPeekHeight = 0.dp
-            ) {}
+
+            //back press listener
+            BackHandler(sheetState.isVisible) {
+                coroutineScope.launch { sheetState.hide() }
+            }
+
+            //--------------------------------------------------------------------//
 
             Column(
                 modifier = Modifier
@@ -75,11 +61,8 @@ class ActivityForgotPassword : ComponentActivity() {
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black),
                     onClick = {
                         coroutineScope.launch {
-                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                bottomSheetScaffoldState.bottomSheetState.expand()
-                            } else {
-                                bottomSheetScaffoldState.bottomSheetState.collapse()
-                            }
+                            if (sheetState.isVisible) sheetState.hide()
+                            else sheetState.show()
                         }
                     },
                     shape = RoundedCornerShape(10.dp)
@@ -87,7 +70,30 @@ class ActivityForgotPassword : ComponentActivity() {
                     Text(text = "Get OTP", color = Color.White)
                 }
             }
+
+            //bottom sheet
+            ModalBottomSheetLayout(
+                sheetState = sheetState,
+                sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+                sheetContent = { BottomSheet() },
+                modifier = Modifier.fillMaxSize()
+            ) {}
+
         }
     }
 }
 
+@Composable
+fun BottomSheet() {
+    Column(modifier = Modifier.fillMaxHeight(0.6f), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            text = "Bottom sheet",
+            style = MaterialTheme.typography.h6
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+        Text(
+            text = "Click outside the bottom sheet to hide it",
+            style = MaterialTheme.typography.body1
+        )
+    }
+}
