@@ -1,6 +1,7 @@
 package com.example.jpc.ui.views
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -21,6 +22,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jpc.ui.theme.Typography
+import com.example.jpc.ui.views.compose.TextFields
+import com.example.jpc.ui.views.compose.Texts
 import com.togitech.ccp.component.TogiCountryCodePicker
 
 class ActivityRegister : ComponentActivity() {
@@ -55,11 +58,11 @@ class ActivityRegister : ComponentActivity() {
                         .padding(top = 15.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    TextField("Username")
+                    TextFields.OutLinedTextField("Username")
                     CCP()
-                    TextField("Password")
+                    TextFields.OutLinedTextField("Password")
                     Spacer(modifier = Modifier.height(15.dp))
-                    TextField("Confirm password")
+                    TextFields.OutLinedTextField("Confirm password")
                 }
                 Spacer(modifier = Modifier.height(50.dp))
                 Button(
@@ -73,27 +76,9 @@ class ActivityRegister : ComponentActivity() {
                     Text(text = "SignUp", color = Color.White)
                 }
                 Spacer(modifier = Modifier.height(30.dp))
-                ClickableText(
-                    buildAnnotatedString {
-                        withStyle(style = SpanStyle(color = Color.Black)) {
-                            append(
-                                "Already have an account? "
-                            )
-                        }
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.Black,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append(
-                                "Login now"
-                            )
-                        }
-                    },
-                    onClick = {
-                        this@ActivityRegister.finish()
-                    })
+                Texts.ClickAbleText(msg1 =  "Already have an account? ", msg2 = "Login now", onClick = {
+                    this@ActivityRegister.finish()
+                })
             }
 
         }

@@ -4,12 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.jpc.ui.theme.Typography
+import com.example.jpc.ui.views.compose.TextFields
+import com.yogeshpaliyal.speld.PinInput
 import kotlinx.coroutines.launch
 
 class ActivityForgotPassword : ComponentActivity() {
@@ -52,7 +56,7 @@ class ActivityForgotPassword : ComponentActivity() {
                     style = Typography.body1
                 )
                 Spacer(modifier = Modifier.height(100.dp))
-                TextField("Enter email address")
+                TextFields.OutLinedTextField("Enter email address")
                 Spacer(modifier = Modifier.height(200.dp))
                 Button(
                     modifier = Modifier
@@ -75,8 +79,7 @@ class ActivityForgotPassword : ComponentActivity() {
             ModalBottomSheetLayout(
                 sheetState = sheetState,
                 sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
-                sheetContent = { BottomSheet() },
-                modifier = Modifier.fillMaxSize()
+                sheetContent = { BottomSheet() }
             ) {}
 
         }
@@ -85,15 +88,39 @@ class ActivityForgotPassword : ComponentActivity() {
 
 @Composable
 fun BottomSheet() {
-    Column(modifier = Modifier.fillMaxHeight(0.6f), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = Modifier
+            .fillMaxHeight(0.6f)
+            .fillMaxWidth()
+            .padding(all = 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
-            text = "Bottom sheet",
+            text = "Enter OTP",
             style = MaterialTheme.typography.h6
         )
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         Text(
-            text = "Click outside the bottom sheet to hide it",
+            text = "Enter 6 digit code for verification",
             style = MaterialTheme.typography.body1
         )
+        Spacer(modifier = Modifier.height(50.dp))
+        OTP()
+    }
+}
+
+@Composable
+fun OTP() {
+    val text = remember { mutableStateOf("") }
+    PinInput(
+        modifier = Modifier.border(
+            BorderStroke(2.dp, Color.Black),
+            shape = RoundedCornerShape(3.dp)
+        ), value = text.value,
+        //obscureText = "*",
+        length = 6,
+        disableKeypad = false // Optional
+    ) {
+        text.value = it
     }
 }

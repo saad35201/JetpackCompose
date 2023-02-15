@@ -2,30 +2,22 @@ package com.example.jpc.ui.views
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Divider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.jpc.R
-import com.example.jpc.ui.theme.Typography
+import com.example.jpc.ui.views.compose.Buttons
+import com.example.jpc.ui.views.compose.Images
+import com.example.jpc.ui.views.compose.TextFields
+import com.example.jpc.ui.views.compose.Texts
 
 class ActivityLogin : ComponentActivity() {
 
@@ -39,20 +31,19 @@ class ActivityLogin : ComponentActivity() {
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Hello Again!", style = Typography.h4)
-                Text(
-                    textAlign = TextAlign.Center,
+                Texts.TextHeading(text = "Hello Again!")
+                Texts.TextBody(
                     text = "Welcome back you've\nbeen missed!",
-                    style = Typography.body1
+                    textAlign = TextAlign.Center
                 )
                 Column(
                     modifier = Modifier
                         .padding(top = 60.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    TextField("Enter username")
+                    TextFields.OutLinedTextField("Enter username")
                     Spacer(modifier = Modifier.height(15.dp))
-                    TextField("Enter password")
+                    TextFields.OutLinedTextField("Enter password")
                     Spacer(modifier = Modifier.height(5.dp))
                 }
                 Column(
@@ -60,40 +51,19 @@ class ActivityLogin : ComponentActivity() {
                         .fillMaxWidth(0.8f),
                     horizontalAlignment = Alignment.End
                 ) {
-                    ClickableText(
-                        buildAnnotatedString {
-                            withStyle(
-                                style = SpanStyle(
-                                    color = Color.Black,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            ) {
-                                append(
-                                    "Forgot password?"
-                                )
-                            }
-                        },
-                        onClick = {
-                            startActivity(
-                                Intent(
-                                    this@ActivityLogin,
-                                    ActivityForgotPassword::class.java
-                                )
+                    Texts.ClickAbleText(msg1 = "Forgot password?", onClick = {
+                        startActivity(
+                            Intent(
+                                this@ActivityLogin,
+                                ActivityForgotPassword::class.java
                             )
-                        }
-                    )
+                        )
+                    })
                 }
                 Spacer(modifier = Modifier.height(80.dp))
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth(0.6f)
-                        .height(50.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black),
-                    onClick = { /*TODO*/ },
-                    shape = RoundedCornerShape(10.dp)
-                ) {
-                    Text(text = "Login", color = Color.White)
-                }
+                Buttons.BtnBlackRoundCorner(text = "Login", onClick = {
+                    Log.e("TAG", "onCreate: " )
+                })
                 Spacer(modifier = Modifier.height(30.dp))
                 Divider(
                     color = Color.Black,
@@ -106,74 +76,43 @@ class ActivityLogin : ComponentActivity() {
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Image(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .size(40.dp),
+                        Images.CircleImgSmall(
                             painter = painterResource(id = R.drawable.ic_facebook),
                             contentDescription = "facebook"
                         )
-                        Text(text = "facebook", fontSize = 12.sp)
+                        Texts.TextSmall(text = "facebook")
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Image(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .size(40.dp),
+                        Images.CircleImgSmall(
                             painter = painterResource(id = R.drawable.ic_google),
                             contentDescription = "google"
                         )
-                        Text(text = "google", fontSize = 12.sp)
+                        Texts.TextSmall(text = "google")
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Image(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .size(40.dp),
+                        Images.CircleImgSmall(
                             painter = painterResource(id = R.drawable.ic_twitter),
                             contentDescription = "twitter"
                         )
-                        Text(text = "twitter", fontSize = 12.sp)
+                        Texts.TextSmall(text = "twitter")
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Image(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .size(40.dp),
+                        Images.CircleImgSmall(
                             painter = painterResource(id = R.drawable.ic_linkedin),
                             contentDescription = "linkedIn"
                         )
-                        Text(text = "linkedIn", fontSize = 12.sp)
+                        Texts.TextSmall(text = "linkedIn")
                     }
                 }
                 Spacer(modifier = Modifier.height(80.dp))
-                val context = LocalContext.current
-                ClickableText(
-                    buildAnnotatedString {
-                        withStyle(style = SpanStyle(color = Color.Black)) {
-                            append(
-                                "Not a member?"
-                            )
-                        }
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.Black,
-
-                                )
-                        ) {
-                            append(
-                                " Register now"
-                            )
-                        }
-                    },
-                    onClick = {
-                        startActivity(
-                            Intent(
-                                this@ActivityLogin,
-                                ActivityRegister::class.java
-                            )
+                Texts.ClickAbleText(msg1 = "Not a member?", msg2 = " Register now", onClick = {
+                    startActivity(
+                        Intent(
+                            this@ActivityLogin,
+                            ActivityRegister::class.java
                         )
-                    })
+                    )
+                })
 
             }
 
@@ -181,22 +120,4 @@ class ActivityLogin : ComponentActivity() {
 
     }
 
-}
-
-
-@Composable
-fun TextField(text_tittle: String) {
-    var textstate by remember { mutableStateOf("") }
-
-    OutlinedTextField(
-        modifier = Modifier
-            .height(50.dp)
-            .fillMaxWidth(0.8f),
-        value = textstate,
-        onValueChange = { textstate = it },
-        placeholder = {
-            Text(text = text_tittle, fontSize = 14.sp)
-        },
-        colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.Black)
-    )
 }
