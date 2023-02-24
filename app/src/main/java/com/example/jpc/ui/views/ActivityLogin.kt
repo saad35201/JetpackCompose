@@ -2,7 +2,6 @@ package com.example.jpc.ui.views
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -31,7 +30,7 @@ class ActivityLogin : ComponentActivity() {
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Texts.TextHeading(text = "Hello Again!")
+                Texts.TextHeading(text = getString(R.string.hello_again))
                 Texts.TextBody(
                     text = "Welcome back you've\nbeen missed!",
                     textAlign = TextAlign.Center
@@ -41,9 +40,9 @@ class ActivityLogin : ComponentActivity() {
                         .padding(top = 60.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    TextFields.OutLinedTextField("Enter username")
+                    TextFields.OutLinedTextField("Enter username", onValueChange = {})
                     Spacer(modifier = Modifier.height(15.dp))
-                    TextFields.OutLinedTextField("Enter password")
+                    TextFields.OutLinedTextField(value = "Enter password", onValueChange = {})
                     Spacer(modifier = Modifier.height(5.dp))
                 }
                 Column(
@@ -53,16 +52,13 @@ class ActivityLogin : ComponentActivity() {
                 ) {
                     Texts.ClickAbleText(msg1 = "Forgot password?", onClick = {
                         startActivity(
-                            Intent(
-                                this@ActivityLogin,
-                                ActivityForgotPassword::class.java
-                            )
+                            Intent(this@ActivityLogin, ActivityForgotPassword::class.java)
                         )
                     })
                 }
                 Spacer(modifier = Modifier.height(80.dp))
                 Buttons.BtnBlackRoundCorner(text = "Login", onClick = {
-                    Log.e("TAG", "onCreate: " )
+                    startActivity(Intent(this@ActivityLogin, ActivityHome::class.java))
                 })
                 Spacer(modifier = Modifier.height(30.dp))
                 Divider(

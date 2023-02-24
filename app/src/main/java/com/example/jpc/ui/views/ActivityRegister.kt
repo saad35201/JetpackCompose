@@ -58,11 +58,11 @@ class ActivityRegister : ComponentActivity() {
                         .padding(top = 15.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    TextFields.OutLinedTextField("Username")
+                    TextFields.OutLinedTextField("Username", onValueChange = {})
                     CCP()
-                    TextFields.OutLinedTextField("Password")
+                    TextFields.OutLinedTextField("Password", onValueChange = {})
                     Spacer(modifier = Modifier.height(15.dp))
-                    TextFields.OutLinedTextField("Confirm password")
+                    TextFields.OutLinedTextField("Confirm password", onValueChange = {})
                 }
                 Spacer(modifier = Modifier.height(50.dp))
                 Button(

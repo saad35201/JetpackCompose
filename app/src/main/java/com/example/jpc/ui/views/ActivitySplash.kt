@@ -36,6 +36,7 @@ class ActivitySplash : ComponentActivity() {
 
         Timer().schedule(3000) {
             startActivity(Intent(this@ActivitySplash, ActivityLogin::class.java))
+            this@ActivitySplash.finish()
         }
 
     }

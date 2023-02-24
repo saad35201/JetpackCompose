@@ -56,7 +56,7 @@ class ActivityForgotPassword : ComponentActivity() {
                     style = Typography.body1
                 )
                 Spacer(modifier = Modifier.height(100.dp))
-                TextFields.OutLinedTextField("Enter email address")
+                TextFields.OutLinedTextField("Enter email address", onValueChange = {})
                 Spacer(modifier = Modifier.height(200.dp))
                 Button(
                     modifier = Modifier
