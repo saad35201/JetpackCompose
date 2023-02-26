@@ -71,6 +71,9 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
+    //lifecycle
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+
     //country code picker
     implementation 'com.github.togisoft:jetpack_compose_country_code_picker:1.1.4'
 
@@ -78,9 +81,9 @@ dependencies {
     implementation 'com.yogeshpaliyal:speld:0.0.1-alpha03'
 
     //pager
-    implementation "com.google.accompanist:accompanist-pager:0.22.0-rc"
+    implementation 'com.google.accompanist:accompanist-pager:0.29.1-alpha'
 
     //coil
-    implementation "io.coil-kt:coil-compose:1.4.0"
+    implementation 'io.coil-kt:coil-compose:1.4.0'
 
 }

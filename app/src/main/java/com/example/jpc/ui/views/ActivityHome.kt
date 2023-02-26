@@ -6,36 +6,26 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
-import coil.size.Scale
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.delay
 
 class ActivityHome : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AutoImageSlider()
+            Slider(images = DataProvider.posterList)
         }
     }
 }
@@ -63,66 +53,43 @@ object DataProvider {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun AutoImageSlider() {
+fun Slider(images: List<Poster>) {
+    val pagerState = rememberPagerState(initialPage = 0)
 
-    val posterList = DataProvider.posterList
-    val state = rememberPagerState()
-    val imageUrl = remember { mutableStateOf("") }
-
-    LaunchedEffect(key1 = state.currentPage) {
-        delay(3000)
-        var newPosition = state.currentPage + 1
-        if (newPosition > posterList.size - 1) newPosition = 0
-        // scrolling to the new position.
-        state.animateScrollToPage(newPosition)
-    }
-
-    HorizontalPager(
-        state = state,
-        count = posterList.size,
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(230.dp)
-            .padding(10.dp, 20.dp, 10.dp)
-    ) { page ->
-
-        imageUrl.value = posterList[page].imageUrl
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
+            .padding(20.dp)
+            .height(180.dp)
+            .background(Color.LightGray, RoundedCornerShape(10.dp))
+    ) {
+        HorizontalPager(
+            count = images.size,
+            state = pagerState,
+            modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(10.dp))
         ) {
-            Box(contentAlignment = Alignment.BottomCenter) {
-
-                val painter = rememberImagePainter(data = imageUrl.value, builder = {
-                    //placeholder(R.drawable.placeholder)
-                    scale(Scale.FILL)
-                })
-                Image(
-                    painter = painter, contentDescription = "", Modifier
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .fillMaxSize(), contentScale = ContentScale.Crop
-                )
+            val image = images[it]
+            Image(
+                painter = rememberImagePainter(image.imageUrl),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(10.dp))
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Bottom
+            ) {
                 Text(
-                    text = posterList[page].title,
-                    Modifier
-                        .fillMaxWidth()
-                        .height(60.dp)
-                        .padding(8.dp)
-                        .background(
-                            color = Color.LightGray,
-                            shape = RoundedCornerShape(bottomEnd = 10.dp, bottomStart = 10.dp)
-                        )
-                        .padding(8.dp),
-                    textAlign = TextAlign.Start,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium
+                    text = image.title,
+                    style = MaterialTheme.typography.body1,
+                    color = Color.White,
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
             }
         }
-
     }
-
 }
+
